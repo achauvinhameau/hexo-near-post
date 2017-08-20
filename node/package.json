@@ -1,0 +1,25 @@
+{
+  "name": "hexo-near-post",
+  "version": "1.0.3",
+  "description": "hexo-near-post is a tool that proposes article to be read near the one currently consulted",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/achauvinhameau/hexo-near-post.git"
+  },
+  "keywords": [
+    "hexo.io",
+    "see",
+    "also",
+    "section"
+  ],
+  "author": "Alexandre Chauvin Hameau",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/achauvinhameau/hexo-near-post/issues"
+  },
+  "homepage": "https://github.com/achauvinhameau/hexo-near-post#readme"
+}

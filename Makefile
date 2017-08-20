@@ -1,5 +1,5 @@
 #
-# Time-stamp: <2017-08-20 14:09:03 alex>
+# Time-stamp: <2017-08-20 14:38:06 alex>
 #
 # --------------------------------------------------------------------
 # hexo-near-post
@@ -42,7 +42,7 @@ cc: clean
 	@RADONFILESENCODING=UTF-8 radon mi $(dirs) *py -nb
 
 clean:
-	@rm -f *pyc *~
+	@rm -f *pyc *~ node/*~ node/npm-debug.log
 
 version:
 	@awk '/^__version/ { $$0="__version__ = \"'`cat VERSION`'\"" }; /^__date__/ { $$0="__date__ = \"'`date +%0d/%0m/%Y-%H:%M:%S`'\"" } ; { print }' < hexo-nearest-compute.py > /tmp/hexo-nearest-compute.py

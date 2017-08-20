@@ -33,4 +33,46 @@ Arguments:
  * -f: force rebuild of the database
  * --database: link to the near-post.json file (should be at base of your hexo site)
 
+hexo plugin
+===========
 
+installation from your hexo site directory:
+```
+npm install hexo-near-post --save
+```
+
+in the _config.yml file, add the following section and configure it as you prefer:
+```
+near_post:
+  enabled: true
+  limit: 2
+  posts: 3
+  heading: see also
+```
+
+* enabled could be turned false if you simply want to disable all the
+  near post section in your articles
+* limit: minimum affinity between post
+* posts: number of post to link with if available
+* heading: name of the section (h2 tag used)
+
+you can tweek your css for the near_post section:
+```
+#near_posts {
+  h2 {
+    font-size: 1.4em;
+    margin-bottom: 0px;
+  }
+
+  ul {
+    margin-left: 20px;
+  }
+}
+```
+
+finaly on each post you want the near_post section to be added, insert a specific tag:
+```
+@@@near_posts@@@
+```
+
+you can add it by default in the scaffolds/post.md file
