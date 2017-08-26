@@ -1,0 +1,4 @@
+/near-post.json
+/node/node_modules/**
+**/*~
+/node/README.md

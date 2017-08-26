@@ -1,0 +1,3 @@
+/node_modules/**
+**/*~
+/nopm-debug.log

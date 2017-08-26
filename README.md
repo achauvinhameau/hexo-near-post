@@ -67,6 +67,11 @@ you can tweek your css for the near_post section:
   ul {
     margin-left: 20px;
   }
+
+ .distance {
+     font-size: 0.75rem;
+     color: darkgrey;
+  }
 }
 ```
 
