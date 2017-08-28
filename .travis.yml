@@ -2,6 +2,7 @@ language: node
 
 before_script:
   - cd node
+  - npm install
 
 script:
   - npm run eslint .
