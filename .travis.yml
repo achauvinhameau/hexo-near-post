@@ -5,4 +5,5 @@ before_script:
   - npm install
 
 script:
-  - npm run eslint .
+  - npm run eslint
+  - npm run jscs
