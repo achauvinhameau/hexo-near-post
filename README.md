@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/achauvinhameau/hexo-near-post.svg?branch=master)](https://travis-ci.org/achauvinhameau/hexo-near-post)
+
 Purpose
 =======
 
