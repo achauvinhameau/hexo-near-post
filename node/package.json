@@ -1,6 +1,6 @@
 {
   "name": "hexo-near-post",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "hexo-near-post is a tool that proposes article to be read near the one currently consulted",
   "main": "index.js",
   "scripts": {
