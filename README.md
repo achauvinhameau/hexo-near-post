@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/achauvinhameau/hexo-near-post.svg?branch=master)](https://travis-ci.org/achauvinhameau/hexo-near-post)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fachauvinhameau%2Fhexo-near-post.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fachauvinhameau%2Fhexo-near-post?ref=badge_shield)
 
 Purpose
 =======
@@ -83,3 +84,7 @@ finaly on each post you want the near_post section to be added, insert a specifi
 ```
 
 you can add it by default in the scaffolds/post.md file
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fachauvinhameau%2Fhexo-near-post.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fachauvinhameau%2Fhexo-near-post?ref=badge_large)
