@@ -1,6 +1,6 @@
 {
   "name": "hexo-near-post",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "hexo-near-post is a tool that proposes article to be read near the one currently consulted",
   "main": "index.js",
   "scripts": {
@@ -26,12 +26,13 @@
   "homepage": "https://github.com/achauvinhameau/hexo-near-post#readme",
 
   "devDependencies": {
-    "chai": "^3.5.0",
-    "cheerio": "^0.20.0",
-    "eslint": "^1.10.3",
-    "eslint-config-hexo": "^1.0.2",
-    "jscs": "^2.9.0",
-    "jscs-preset-hexo": "^1.0.1"
+    "chai": "^4.2.0",
+    "cheerio": "^0.22.0",
+    "eslint": "^6.0.0",
+    "eslint-config-hexo": "^3.0.0",
+    "jscs": "^3.0.7",
+    "jscs-preset-hexo": "^1.0.1",
+    "acorn": "^6.1.1"
   }
 
 }
