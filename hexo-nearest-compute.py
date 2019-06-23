@@ -1,7 +1,7 @@
 # -*- Mode: Python; python-indent-offset: 4 -*-
 # -*- coding: utf-8 -*-
 #
-# Time-stamp: <2017-08-20 14:19:54 alex>
+# Time-stamp: <2018-12-06 18:42:50 alex>
 #
 # --------------------------------------------------------------------
 # hexo-near-post
@@ -26,8 +26,8 @@
  parse all posts and compute the similarity level
 """
 
-__version__ = "1.0"
-__date__ = "20/08/2017-13:59:36"
+__version__ = "1.1"
+__date__ = "23/06/2019-12:30:49"
 __author__ = "Alex Chauvin"
 
 # standard imports
@@ -40,6 +40,7 @@ import json
 
 import textmining
 import yaml
+import pprint
 
 # ----------- parse args
 try:
@@ -83,7 +84,7 @@ logging.info("starting")
 def read_stopwords(lang):
     """Returns a set of stopwords read from a file based on the language"""
     _stopwords = set()
-    if lang not in ['fr']:
+    if lang not in ['fr', 'en']:
         logging.error("lang for stopwords not known")
         return
 
@@ -111,15 +112,7 @@ def computeDistance(rows):
     return total*1.0 / l**2 * 1000
 
 # -------------------------------------
-def readAndCleanFile(fileName):
-    """ read the post file (.md) and clean the content to get only words"""
-
-    logging.debug("read and clean {}".format(fileName))
-
-    _f = open(fileName, 'r')
-    src = _f.read()
-    _f.close()
-
+def extractYAMLpart(src):
     # extract the yaml part for description and keywords
     inFlag = False
     ylines = []
@@ -137,7 +130,19 @@ def readAndCleanFile(fileName):
         logging.error("yaml format not correct in {}".format(fileName))
         return None
 
-    y = yaml.load("\n".join(ylines))
+    return yaml.load("\n".join(ylines))
+
+# -------------------------------------
+def readAndCleanFile(fileName):
+    """ read the post file (.md) and clean the content to get only words"""
+
+    logging.debug("read and clean {}".format(fileName))
+
+    _f = open(fileName, 'r')
+    src = _f.read()
+    _f.close()
+
+    y = extractYAMLpart(src)
 
     # -------------------------
     def _build(k):
@@ -177,7 +182,9 @@ def readAndCleanFile(fileName):
                           ('à', 'a'), ('â', 'a'),
                           ('é', 'e'), ('è', 'e'), ('ê', 'e'), ('ë', 'e'),
                           ('ç', 'c'),
-                          ('ù', 'u')]:
+                          ('ù', 'u'),
+                          ('<figure class', '</figure>'),
+                          ('<twitter-widget ', '</twitter-widget>')]:
         src = _clean(before, after, src)
         sKeywords = _clean(before, after, sKeywords)
         sDescr = _clean(before, after, sDescr)
@@ -200,7 +207,26 @@ def readAndCleanFile(fileName):
     return ' '.join(a)
 
 # -------------------------------------
-def getAllPostsName():
+def isPublished(fileName, lang=None):
+    """ check if the article is published and if same language as constraint """
+    _f = open(fileName, 'r')
+    src = _f.read()
+    _f.close()
+
+    y = extractYAMLpart(src)
+
+    if lang is not None:
+        if 'language' in y:
+            if y['language'] != lang:
+                return False
+
+    if 'published' in y:
+        return y['published']
+
+    return True
+
+# -------------------------------------
+def getAllPostsName(lang=None):
     """get all the posts in the standard directory and push these into an array"""
     aPostFiles = []
 
@@ -209,8 +235,9 @@ def getAllPostsName():
         # print path to all filenames.
         for filename in filenames:
             if filename[-3:] == ".md":
-                dn = re.sub(re.sub('/', '\\/', os.path.join(args.path)), '', dirname)
-                aPostFiles.append(os.path.join(dn, filename))
+                if isPublished(dirname+'/'+filename, lang):
+                    dn = re.sub(re.sub('/', '\\/', os.path.join(args.path)), '', dirname)
+                    aPostFiles.append(os.path.join(dn, filename))
 
     return aPostFiles
 
@@ -276,9 +303,10 @@ def main():
     # init the stopwords for french
     # add the french stopwords to the english already contained in the package
     #
+    textmining.stopwords.clear()
     textmining.stopwords.update(read_stopwords('fr'))
 
-    aPostFiles = getAllPostsName()
+    aPostFiles_FR = getAllPostsName('fr')
 
     # prepare text mining
     dCleanData = {}
@@ -292,11 +320,35 @@ def main():
         except IOError:
             logging.warning("access error to the near-post.json file")
 
-    for f1 in aPostFiles:
+    for f1 in aPostFiles_FR:
         logging.info("process distance around {}".format(f1))
-        for f2 in aPostFiles:
+        for f2 in aPostFiles_FR:
             if f1 < f2:
                 processDistance(f1, f2, dDistances, dCleanData)
+
+
+    # -------------------------------------
+    # init the stopwords for english
+    #
+    textmining.stopwords.clear()
+    textmining.stopwords.update(read_stopwords('en'))
+
+    aPostFiles_FR = getAllPostsName('en')
+
+    if not args.force and os.path.exists('near-post.json'):
+        try:
+            _f = open("near-post.json", 'r')
+            dDistances = json.load(_f)
+            _f.close()
+        except IOError:
+            logging.warning("access error to the near-post.json file")
+
+    for f1 in aPostFiles_FR:
+        logging.info("process distance around {}".format(f1))
+        for f2 in aPostFiles_FR:
+            if f1 < f2:
+                processDistance(f1, f2, dDistances, dCleanData)
+
 
     logging.info("writing near-post.json file")
 
