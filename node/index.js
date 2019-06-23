@@ -1,6 +1,6 @@
 /* -*- Mode: javascript; tab-width: 4; indent-tabs-mode: nil
    -*- coding=UTF-8 -*-
-   Time-stamp: <2017-11-27 17:54:45 alex>
+   Time-stamp: <2018-10-19 07:27:59 alex>
 
  --------------------------------------------------------------------
  hexo-near-post
@@ -26,6 +26,7 @@
 
 var moment = require('moment');
 var pathFn = require('path');
+var I18n = require('hexo-i18n');
 
 var path = pathFn.join(process.cwd(), 'near-post.json');
 var dbNearPost;
@@ -34,7 +35,7 @@ var aAllPostsLink = {};
 var near_limit = 2.0;
 var near_enabled = false;
 var near_posts = 3;
-var near_heading = 'See also';
+var near_heading = 'see also';
 
 var conf = hexo.config.near_post;
 
@@ -108,16 +109,27 @@ if (near_enabled === false) {
                 return parseFloat(a.distance) < parseFloat(b.distance);
             });
 
+            if (data.language == "en") {
+                if (conf.heading_en !== undefined) {
+                    near_heading = conf.heading_en;
+                }
+            }
+            if (data.language == "fr") {
+                if (conf.heading_fr !== undefined) {
+                    near_heading = conf.heading_fr;
+                }
+            }
+
             // build the item list
             var replace = "";
             for (var i in aAdjPosts) {
                 if (i < near_posts) {
                     if (aAdjPosts[i].distance >= near_limit ) {
                         if (replace === '') {
-                            replace = '<div id="near_posts"><h2>'+near_heading+'</h2><ul>';
+                            replace = '<div id="near_posts"><h1>'+near_heading+'</h1><ul>';
                         }
 
-                        replace += '<li>&nbsp;<span class="distance">['+aAdjPosts[i].distance.toFixed(2)+']</span>&nbsp;'+'<a href="/'+aAdjPosts[i].url+'">'+aAdjPosts[i].title+'</a></li>';
+                        replace += '<li>&nbsp;<span class="distance">['+aAdjPosts[i].distance.toFixed(2)+']</span>&nbsp;'+'<a href="'+aAdjPosts[i].url+'">'+aAdjPosts[i].title+'</a></li>';
                     }
                 }
             }
